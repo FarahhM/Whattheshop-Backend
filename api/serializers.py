@@ -3,17 +3,16 @@ from rest_framework import serializers
 from .models import Shop
 
 
-
-
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
-        fields = ['name','description']
+        fields = '__all__'
 
 class DetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
         fields = '__all__'
+
 
 class CreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,8 +34,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         new_user.save()
         return validated_data
 
-class UserLoginSerializer(serializers.Serializer):
-   
+class UserLoginSerializer(serializers.Serializer):   
     def validate(self, data):
         my_username = data.get('username')
         my_password = data.get('password')

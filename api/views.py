@@ -4,6 +4,7 @@ from .models import Shop
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -15,6 +16,7 @@ class ListApiView(ListAPIView):
     serializer_class = ListSerializer
     filter_backends = [SearchFilter,OrderingFilter]
     search_fields = ['username', 'password']
+    permission_classes = [AllowAny]
 
 
 
@@ -23,6 +25,7 @@ class DetailApiView(RetrieveAPIView):
     serializer_class = DetailSerializer
     lookup_field = 'id'
     lookup_url_kwarg = 'shop'
+    permission_classes = [IsAuthenticated]
 
 
 
@@ -31,6 +34,7 @@ class UpdateApiView(RetrieveUpdateAPIView):
     serializer_class = ListSerializer
     lookup_field = 'id'
     lookup_url_kwarg = 'shop'
+    permission_classes = [IsAuthenticated]
 
 
 
@@ -38,6 +42,7 @@ class DeleteView(DestroyAPIView):
     queryset = Shop.objects.all()
     lookup_field = 'id'
     lookup_url_kwarg = 'shop'
+    permission_classes = [IsAuthenticated,IsAdminUser]
 
 
 
