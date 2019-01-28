@@ -1,6 +1,6 @@
 from rest_framework.generics import ListAPIView,RetrieveUpdateAPIView,DestroyAPIView,RetrieveAPIView,CreateAPIView
-from .serializers import ListSerializer,DetailSerializer,CreateSerializer,UserCreateSerializer,UserLoginSerializer
-from .models import Shop
+from .serializers import ListSerializer,DetailSerializer,CreateSerializer, UserCreateSerializer,UserLoginSerializer,ListUserchocieSerializer , UserchocieSerializer 
+from .models import Item, Userchocie , Previoseorders
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
@@ -11,37 +11,65 @@ class UserCreateAPIView(CreateAPIView):
     serializer_class = UserCreateSerializer
 
 
+class ItemCreateView(CreateAPIView):
+    serializer_class = ListSerializer
+
+ 
+# class OrderCreateView2(CreateAPIView):
+#     serializer_class = UserchocieSerializer
+
+    # def perform_create(self, serializer):
+    #     serializer.save(user=self.request.user)   
+
+class OrderCreateView(APIView):
+    serializer_class = ListUserchocieSerializer
+    
+    # def post(self, request):
+    #     order_list = request.data
+    #     order= Previoseorders(user=request.user)
+        
+    #     for x in order_list :
+    #     order_list['item']= 
+    #     order_list['qauntity']=
+        
+       
+    
+    
 class ListApiView(ListAPIView):
-    queryset = Shop.objects.all()
+    queryset = Item.objects.all()
     serializer_class = ListSerializer
     filter_backends = [SearchFilter,OrderingFilter]
-    search_fields = ['username', 'password']
+    permission_classes = [AllowAny]
+
+class ListUserchocieApiView(ListAPIView):
+    queryset = Userchocie.objects.all()
+    serializer_class = ListUserchocieSerializer
+    filter_backends = [SearchFilter,OrderingFilter]
     permission_classes = [AllowAny]
 
 
-
 class DetailApiView(RetrieveAPIView):
-    queryset = Shop.objects.all()
+    queryset = Item.objects.all()
     serializer_class = DetailSerializer
     lookup_field = 'id'
-    lookup_url_kwarg = 'shop'
+    lookup_url_kwarg = 'Item'
     permission_classes = [IsAuthenticated]
 
 
 
 class UpdateApiView(RetrieveUpdateAPIView):
-    queryset = Shop.objects.all()
+    queryset = Item.objects.all()
     serializer_class = ListSerializer
     lookup_field = 'id'
-    lookup_url_kwarg = 'shop'
+    lookup_url_kwarg = 'Item'
     permission_classes = [IsAuthenticated]
 
 
 
 class DeleteView(DestroyAPIView):
-    queryset = Shop.objects.all()
+    queryset = Item.objects.all()
     lookup_field = 'id'
-    lookup_url_kwarg = 'shop'
+    lookup_url_kwarg = 'Item'
     permission_classes = [IsAuthenticated,IsAdminUser]
 
 
@@ -56,4 +84,6 @@ class UserLoginAPIView(APIView):
             valid_data = serializer.data
             return Response(valid_data, status=HTTP_200_OK)
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
+
+
 

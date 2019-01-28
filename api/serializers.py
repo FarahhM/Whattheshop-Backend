@@ -1,35 +1,48 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Shop
+from .models import Item , Userchocie ,Previoseorders
 
+
+class ListUserchocieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Userchocie
+        fields = '__all__'
+
+class UserchocieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Previoseorders
+        fields = '__all__'
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Shop
+        model = Item
         fields = '__all__'
+
 
 class DetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Shop
+        model = Item
         fields = '__all__'
 
 
 class CreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Shop
+        model = Item
         fields = '__all__'
-
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ['username', 'password' , 'email' ,'first_name','last_name']
 
     def create(self, validated_data):
+        email = validated_data['email']
         username = validated_data['username']
         password = validated_data['password']
-        new_user = User(username=username)
+        first_name = validated_data['first_name']
+        last_name = validated_data['last_name']
+        new_user = User(username=username,email=email,first_name=first_name,last_name=last_name)
         new_user.set_password(password)
         new_user.save()
         return validated_data
@@ -45,6 +58,6 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("This username does not exist")
 
         if not user_obj.check_password(my_password):
-            raise serializers.ValidationError("Incorrect username/password combination! Noob..")
+            raise serializers.ValidationError("Incorrect username/password combination! ")
 
         return data
