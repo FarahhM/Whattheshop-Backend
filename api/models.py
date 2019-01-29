@@ -7,30 +7,29 @@ GENDER_CHOICES = (
     ('Women','WOMEN'),
     ('Kids','KIDS'),
 )
-
+SIZE_CHOICES = (('---','___'),('Small','Small'),('Medium','Medium'),('Larg','Larg'),
+)
 class Item(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=3)
     image = models.ImageField(null=True, blank=True) 
     gender = models.CharField(max_length=5,choices=GENDER_CHOICES,default='---')
+    size = models.CharField(max_length=5,choices=SIZE_CHOICES,default='---')
 
 
     def __str__(self):
         return self.name
 
-class Previoseorders(models.Model):
-    #item = models.ForeignKey(Item,on_delete=models.CASCADE) 
-    #Userchocie = models.ForeignKey(Userchocie,on_delete=models.CASCADE)
+class Previoseorders(models.Model): 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    #status = 
+  
 
        
 class Userchocie(models.Model):
-      #user = models.ForeignKey(User,on_delete=models.CASCADE)
       order =models.ForeignKey(Previoseorders,on_delete=models.CASCADE)
       item = models.ForeignKey(Item,on_delete=models.CASCADE)
-      qauntity = models.IntegerField()
+      quantity = models.IntegerField()
 
 
 

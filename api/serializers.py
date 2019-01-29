@@ -8,10 +8,16 @@ class ListUserchocieSerializer(serializers.ModelSerializer):
         model = Userchocie
         fields = '__all__'
 
+
+
 class UserchocieSerializer(serializers.ModelSerializer):
+    chocie = serializers.SerializerMethodField()
     class Meta:
         model = Previoseorders
-        fields = '__all__'
+        fields = ["user", "chocie"]
+
+    def get_chocie(self,obj):
+        return ListUserchocieSerializer(obj.userchocie_set,many=True).data
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,3 +67,5 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Incorrect username/password combination! ")
 
         return data
+
+

@@ -1,6 +1,6 @@
 from rest_framework.generics import ListAPIView,RetrieveUpdateAPIView,DestroyAPIView,RetrieveAPIView,CreateAPIView
 from .serializers import ListSerializer,DetailSerializer,CreateSerializer, UserCreateSerializer,UserLoginSerializer,ListUserchocieSerializer , UserchocieSerializer 
-from .models import Item, Userchocie , Previoseorders
+from .models import Item, Userchocie ,Previoseorders
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
@@ -24,22 +24,40 @@ class ItemCreateView(CreateAPIView):
 class OrderCreateView(APIView):
     serializer_class = ListUserchocieSerializer
     
-    # def post(self, request):
-    #     order_list = request.data
-    #     order= Previoseorders(user=request.user)
-        
-    #     for x in order_list :
-    #     order_list['item']= 
-    #     order_list['qauntity']=
-        
-       
-    
+    def post(self, request):
+        order_list = request.data
+        order= Previoseorders(user=request.user)
+        order.save()
+
+        for x in order_list:
+           ItemId  = x['id']
+           quantity = x['qty']
+
+           queryset = Item.objects.get(id=ItemId)
+           Userchocie.objects.create(item=queryset, quantity=quantity, order=order)
+      
+     #  userChoice = {
+     #     "item": ItemId ,
+     #     "qauntity": Quntity ,
+     #  }  
+
+     # return  Response(userChoice)
+           return Response("success")
+
+class ListPrevioseordersApiView(ListAPIView):
+    queryset = Previoseorders.objects.all()
+    serializer_class = UserchocieSerializer    
     
 class ListApiView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ListSerializer
     filter_backends = [SearchFilter,OrderingFilter]
     permission_classes = [AllowAny]
+
+class ListorderApiView(ListAPIView):
+    queryset = Item.objects.all()
+    serializer_class = UserchocieSerializer
+
 
 class ListUserchocieApiView(ListAPIView):
     queryset = Userchocie.objects.all()
