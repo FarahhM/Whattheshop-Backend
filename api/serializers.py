@@ -6,7 +6,7 @@ from .models import Item , Userchocie ,Previoseorders
 class ListUserchocieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Userchocie
-        fields = '__all__'
+        fields = ["item","quantity","size"]
 
 
 
@@ -14,7 +14,7 @@ class UserchocieSerializer(serializers.ModelSerializer):
     chocie = serializers.SerializerMethodField()
     class Meta:
         model = Previoseorders
-        fields = ["user", "chocie"]
+        fields = ["id","user", "chocie" , "date"]
 
     def get_chocie(self,obj):
         return ListUserchocieSerializer(obj.userchocie_set,many=True).data
