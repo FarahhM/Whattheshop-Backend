@@ -14,7 +14,6 @@ class UserCreateAPIView(CreateAPIView):
 class ItemCreateView(CreateAPIView):
 	serializer_class = ListSerializer
 
- 
 
 
 class OrderCreateView(APIView):
@@ -35,13 +34,7 @@ class OrderCreateView(APIView):
 		   Userchocie.objects.create(item=queryset, quantity=quantity,size=size ,user=order)
 		order.save()
 		return Response({"msg":"success"})
-	 	# order.save()
-	 #  userChoice = {
-	 #     "item": ItemId ,
-	 #     "qauntity": Quntity ,
-	 #  }  
-
-	 # return  Response(userChoice)
+	
 		
 
 class ListPrevioseordersApiView(ListAPIView):
@@ -54,9 +47,7 @@ class ListApiView(ListAPIView):
 	filter_backends = [SearchFilter,OrderingFilter]
 	permission_classes = [AllowAny]
 
-# class ListorderApiView(ListAPIView):
-# 	queryset = Item.objects.all()
-# 	serializer_class = UserchocieSerializer
+
 
 
 class ListUserchocieApiView(ListAPIView):

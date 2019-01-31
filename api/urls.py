@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/',obtain_jwt_token, name='login'),
     path('register/',UserCreateAPIView.as_view(), name='register'),
     path('list/',ListApiView.as_view(),name='list-api'),
+    #path('cart/',CartView.as_view(),name='cart_api'),
     path('create/',ItemCreateView.as_view(),name='create-api'),
     path('order/list/',ListPrevioseordersApiView.as_view(),name='orderlist-api'),
     path('order/create/',OrderCreateView.as_view(),name='createorder-api'),

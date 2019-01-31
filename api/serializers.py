@@ -12,12 +12,15 @@ class ListUserchocieSerializer(serializers.ModelSerializer):
 
 class UserchocieSerializer(serializers.ModelSerializer):
     chocie = serializers.SerializerMethodField()
+    totalprice = serializers.SerializerMethodField()
     class Meta:
         model = Previoseorders
-        fields = ["id","user", "chocie" , "date"]
+        fields = ["id","user", "chocie" , "date" , "totalprice"]
 
     def get_chocie(self,obj):
         return ListUserchocieSerializer(obj.userchocie_set,many=True).data
+    def get_totalprice(self,obj):
+        return obj.total()
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
