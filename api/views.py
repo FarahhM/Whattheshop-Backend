@@ -1,6 +1,6 @@
 from rest_framework.generics import ListAPIView,RetrieveUpdateAPIView,DestroyAPIView,RetrieveAPIView,CreateAPIView
-from .serializers import ListSerializer,DetailSerializer,CreateSerializer, UserCreateSerializer,UserLoginSerializer,ListUserchocieSerializer , UserchocieSerializer 
-from .models import Item, Userchocie ,Previoseorders
+from .serializers import ListSerializer,DetailSerializer,CreateSerializer, UserCreateSerializer,UserLoginSerializer,ListUserchoiceSerializer , UserchoiceSerializer 
+from .models import Item, Userchoice ,Previoseorders
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
@@ -17,7 +17,7 @@ class ItemCreateView(CreateAPIView):
 
 
 class OrderCreateView(APIView):
-	serializer_class = ListUserchocieSerializer
+	serializer_class = ListUserchoiceSerializer
 	
 	def post(self, request):
 		print(request.data)
@@ -31,15 +31,20 @@ class OrderCreateView(APIView):
 		   size = x["size"]
 
 		   queryset = Item.objects.get(id=ItemId)
-		   Userchocie.objects.create(item=queryset, quantity=quantity,size=size ,user=order)
+		   Userchoice.objects.create(item=queryset, quantity=quantity,size=size ,user=order)
 		order.save()
 		return Response({"msg":"success"})
 	
 		
 
 class ListPrevioseordersApiView(ListAPIView):
-	queryset = Previoseorders.objects.all()
-	serializer_class = UserchocieSerializer    
+	# queryset = Previoseorders.objects.all()
+	serializer_class = UserchoiceSerializer   
+
+	def get_queryset(self):
+		user = self.request.user
+		return Previoseorders.objects.filter(user=user)
+		# return user.accounts.all() 
 	
 class ListApiView(ListAPIView):
 	queryset = Item.objects.all()
@@ -50,9 +55,9 @@ class ListApiView(ListAPIView):
 
 
 
-class ListUserchocieApiView(ListAPIView):
-	queryset = Userchocie.objects.all()
-	serializer_class = ListUserchocieSerializer
+class ListUserchoiceApiView(ListAPIView):
+	queryset = Userchoice.objects.all()
+	serializer_class = ListUserchoiceSerializer
 	filter_backends = [SearchFilter,OrderingFilter]
 	permission_classes = [AllowAny]
 
