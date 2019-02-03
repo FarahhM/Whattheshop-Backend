@@ -25,17 +25,17 @@ class Previoseorders(models.Model):
 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     date = models.DateField(default=datetime.today)
-
+    
     def total(self):
         total = 0
         #return total
-        choices = self.userchocie_set.all()
+        choices = self.userchoice_set.all()
         for x in choices : 
           total += (x.quantity*x.item.price)
         return  total
-       
+    
 
-class Userchocie(models.Model):
+class Userchoice(models.Model):
       user =models.ForeignKey(Previoseorders,on_delete=models.CASCADE)
       item = models.ForeignKey(Item,on_delete=models.CASCADE)
       size = models.CharField(max_length=120)

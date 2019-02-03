@@ -1,24 +1,24 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Item , Userchocie ,Previoseorders
+from .models import Item , Userchoice ,Previoseorders
 
 
-class ListUserchocieSerializer(serializers.ModelSerializer):
+class ListUserchoiceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Userchocie
+        model = Userchoice
         fields = ["item","quantity","size"]
 
 
 
-class UserchocieSerializer(serializers.ModelSerializer):
-    chocie = serializers.SerializerMethodField()
+class UserchoiceSerializer(serializers.ModelSerializer):
+    choice = serializers.SerializerMethodField()
     totalprice = serializers.SerializerMethodField()
     class Meta:
         model = Previoseorders
-        fields = ["id","user", "chocie" , "date" , "totalprice"]
+        fields = ["id","user", "choice" , "date" , "totalprice"]
 
-    def get_chocie(self,obj):
-        return ListUserchocieSerializer(obj.userchocie_set,many=True).data
+    def get_choice(self,obj):
+        return ListUserchoiceSerializer(obj.userchoice_set,many=True).data
     def get_totalprice(self,obj):
         return obj.total()
 

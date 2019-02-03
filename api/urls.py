@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserCreateAPIView ,ListApiView ,DetailApiView,UpdateApiView ,ListUserchocieApiView ,ItemCreateView,OrderCreateView,ListPrevioseordersApiView
+from .views import UserCreateAPIView ,ListApiView ,DetailApiView,UpdateApiView ,ListUserchoiceApiView, ItemCreateView,OrderCreateView,ListPrevioseordersApiView
 from rest_framework_jwt.views import obtain_jwt_token
 from django.contrib import admin
 from django.conf import settings
