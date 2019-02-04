@@ -1,13 +1,23 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Item , Userchoice ,Previoseorders
 
+from .models import Item , Userchocie ,Previoseorders,Classification
+
+
+class ClassificationSerializer(serializers.ModelSerializer):
+   class Meta:
+       model = Classification
+       fields = ["id","name","backgroundImage"]
 
 class ListUserchoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Userchoice
         fields = ["item","quantity","size"]
 
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Userchocie
+        fields = ["item","quantity","size"]
 
 
 class UserchoiceSerializer(serializers.ModelSerializer):
@@ -15,7 +25,8 @@ class UserchoiceSerializer(serializers.ModelSerializer):
     totalprice = serializers.SerializerMethodField()
     class Meta:
         model = Previoseorders
-        fields = ["id","user", "choice" , "date" , "totalprice"]
+        fields = ["id","user", "chocie" , "date" ,"time" ,"totalprice"]
+
 
     def get_choice(self,obj):
         return ListUserchoiceSerializer(obj.userchoice_set,many=True).data

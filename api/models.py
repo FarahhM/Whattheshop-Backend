@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+from datetime import datetime, timedelta, tzinfo
+from django.utils.timezone import utc
 
 GENDER_CHOICES = (
     ('---','__'),
@@ -10,8 +11,13 @@ GENDER_CHOICES = (
 )
 # SIZE_CHOICES = (('---','___'),('Small','Small'),('Medium','Medium'),('Larg','Larg'),
 # )
+class Classification(models.Model):
+   name = models.CharField(max_length=120)
+   backgroundImage = models.ImageField(null=True, blank=True)
+
 
 class Item(models.Model):
+    classification = models.ForeignKey(Classification,on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=3)
@@ -24,8 +30,10 @@ class Item(models.Model):
 class Previoseorders(models.Model): 
 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(default=datetime.today)
-    
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    status = models.BooleanField(default=False)
+
     def total(self):
         total = 0
         #return total
@@ -33,6 +41,12 @@ class Previoseorders(models.Model):
         for x in choices : 
           total += (x.quantity*x.item.price)
         return  total
+
+    def save(self, *args, **kwargs):
+        self.time = datetime.utcnow().replace(tzinfo=utc) + timedelta(hours=3) 
+        super(Previoseorders, self).save(*args, **kwargs)
+        #self.time =forms.TimeInput(format='%H:%M')
+       
     
 
 class Userchoice(models.Model):
