@@ -8,6 +8,10 @@ class ListUserchocieSerializer(serializers.ModelSerializer):
         model = Userchocie
         fields = ["item","quantity","size"]
 
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Userchocie
+        fields = ["item","quantity","size"]
 
 
 class UserchocieSerializer(serializers.ModelSerializer):
@@ -15,7 +19,7 @@ class UserchocieSerializer(serializers.ModelSerializer):
     totalprice = serializers.SerializerMethodField()
     class Meta:
         model = Previoseorders
-        fields = ["id","user", "chocie" , "date" , "totalprice"]
+        fields = ["id","user", "chocie" , "date" ,"time" ,"totalprice"]
 
     def get_chocie(self,obj):
         return ListUserchocieSerializer(obj.userchocie_set,many=True).data
