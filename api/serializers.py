@@ -1,7 +1,11 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Item , Userchocie ,Previoseorders
+from .models import Item , Userchocie ,Previoseorders,Classification
 
+class ClassificationSerializer(serializers.ModelSerializer):
+   class Meta:
+       model = Classification
+       fields = ["id","name","backgroundImage"]
 
 class ListUserchocieSerializer(serializers.ModelSerializer):
     class Meta:

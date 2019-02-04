@@ -11,8 +11,13 @@ GENDER_CHOICES = (
 )
 # SIZE_CHOICES = (('---','___'),('Small','Small'),('Medium','Medium'),('Larg','Larg'),
 # )
+class Classification(models.Model):
+   name = models.CharField(max_length=120)
+   backgroundImage = models.ImageField(null=True, blank=True)
+
 
 class Item(models.Model):
+    classification = models.ForeignKey(Classification,on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=3)

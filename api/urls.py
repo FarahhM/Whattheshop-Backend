@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ListallPrevioseordersApiView,UserCreateAPIView,cartView,checkoutView,ListApiView ,DetailApiView,UpdateApiView ,ListUserchocieApiView ,ItemCreateView,ListPrevioseordersApiView
+from .views import ClassificationApiView,ListallPrevioseordersApiView,UserCreateAPIView,cartView,checkoutView,ListApiView ,DetailApiView,UpdateApiView ,ListUserchocieApiView ,ItemCreateView,ListPrevioseordersApiView
 from rest_framework_jwt.views import obtain_jwt_token
 from django.contrib import admin
 from django.conf import settings
@@ -17,4 +17,5 @@ urlpatterns = [
     #path('order/create/',OrderCreateView.as_view(),name='createorder-api'),
     path('detail/<int:shop>/',DetailApiView.as_view(),name='Detail-api'),
     path('update/<int:shop>/',UpdateApiView.as_view(),name='update-api'),
+    path('classification/',ClassificationApiView.as_view(),name='classification-api'),
 ]

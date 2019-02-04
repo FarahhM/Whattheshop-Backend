@@ -1,6 +1,6 @@
 from rest_framework.generics import ListAPIView,RetrieveUpdateAPIView,DestroyAPIView,RetrieveAPIView,CreateAPIView
-from .serializers import ListSerializer,DetailSerializer,CartSerializer,CreateSerializer, UserCreateSerializer,UserLoginSerializer,ListUserchocieSerializer , UserchocieSerializer 
-from .models import Item, Userchocie ,Previoseorders
+from .serializers import ClassificationSerializer, ListSerializer,DetailSerializer,CartSerializer,CreateSerializer, UserCreateSerializer,UserLoginSerializer,ListUserchocieSerializer , UserchocieSerializer 
+from .models import Item, Userchocie ,Previoseorders,Classification
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
@@ -14,7 +14,9 @@ class UserCreateAPIView(CreateAPIView):
 class ItemCreateView(CreateAPIView):
     serializer_class = ListSerializer
 
-
+class ClassificationApiView(ListAPIView):
+   queryset = Classification.objects.all()
+   serializer_class = ClassificationSerializer
 
 
 class cartView(APIView):
