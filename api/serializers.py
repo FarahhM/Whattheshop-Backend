@@ -29,6 +29,7 @@ class UserchocieSerializer(serializers.ModelSerializer):
         return ListUserchocieSerializer(obj.userchocie_set,many=True).data
     def get_totalprice(self,obj):
         return obj.total()
+        
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
