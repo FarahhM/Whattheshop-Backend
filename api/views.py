@@ -1,6 +1,8 @@
 from rest_framework.generics import ListAPIView,RetrieveUpdateAPIView,DestroyAPIView,RetrieveAPIView,CreateAPIView
+
 from .serializers import ClassificationSerializer, ListSerializer,DetailSerializer,CartSerializer,CreateSerializer, UserCreateSerializer,UserLoginSerializer,ListUserchocieSerializer , UserchocieSerializer 
 from .models import Item, Userchocie ,Previoseorders,Classification
+
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
@@ -21,8 +23,9 @@ class ClassificationApiView(ListAPIView):
 
 class cartView(APIView):
      
-    def post(self, request):
-        print(request.data)
+	def post(self, request):
+   		   print(request.data)
+
 
         order, created = Previoseorders.objects.get_or_create(user=request.user,status=False)
         x = request.data
@@ -97,6 +100,9 @@ class ListallPrevioseordersApiView(ListAPIView):
     queryset = Previoseorders.objects.all()
     serializer_class = UserchocieSerializer
     
+		
+
+
 class ListApiView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ListSerializer
@@ -130,11 +136,13 @@ class ListWomenApiView(ListAPIView):
         user = self.request.user
         return Item.objects.filter(gender="Women")
 
+
 class ListUserchocieApiView(ListAPIView):
     queryset = Userchocie.objects.all()
     serializer_class = ListUserchocieSerializer
     filter_backends = [SearchFilter,OrderingFilter]
     permission_classes = [AllowAny]
+
 
 
 class DetailApiView(RetrieveAPIView):
