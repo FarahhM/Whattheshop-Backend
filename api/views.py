@@ -28,18 +28,21 @@ class cartView(APIView):
 
 
         order, created = Previoseorders.objects.get_or_create(user=request.user,status=False)
-
-
         x = request.data
+        
 
         ItemId  = x['id']
         quantity = x['quantity']
         size = x["size"]
-
         queryset = Item.objects.get(id=ItemId)
-        Userchocie.objects.create(item=queryset, quantity=quantity,size=size ,user=order)
-        print("tfytfuytfuytf")
-        print(x)
+        uc = Userchocie.objects.filter(user=order, item=queryset,size=size)
+        if uc:
+          uc[0].quantity = uc[0].quantity + 1
+          uc[0].save()
+        else:
+          Userchocie.objects.create(item=queryset, quantity=quantity,size=size ,user=order)
+
+
         return Response({"msg":"success"})
 
             #Userchocie.objects.get(item=id, quantity=quantity,size=size ,user=order)
@@ -106,8 +109,32 @@ class ListApiView(ListAPIView):
     filter_backends = [SearchFilter,OrderingFilter]
     permission_classes = [AllowAny]
 
+class ListmenApiView(ListAPIView):
+  
+    serializer_class = ListSerializer
+    filter_backends = [SearchFilter,OrderingFilter]
+    permission_classes = [AllowAny]
+    def get_queryset(self):
+        user = self.request.user
+        return Item.objects.filter(gender="Men")
+        # return user.accounts.all()
+class ListKidsApiView(ListAPIView):
+  
+    serializer_class = ListSerializer
+    filter_backends = [SearchFilter,OrderingFilter]
+    permission_classes = [AllowAny]
+    def get_queryset(self):
+        user = self.request.user
+        return Item.objects.filter(gender="Kids")
 
-
+class ListWomenApiView(ListAPIView):
+  
+    serializer_class = ListSerializer
+    filter_backends = [SearchFilter,OrderingFilter]
+    permission_classes = [AllowAny]
+    def get_queryset(self):
+        user = self.request.user
+        return Item.objects.filter(gender="Women")
 
 
 class ListUserchocieApiView(ListAPIView):
