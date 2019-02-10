@@ -9,11 +9,19 @@ GENDER_CHOICES = (
     ('Women','WOMEN'),
     ('Kids','KIDS'),
 )
+TYPE_CHOICES = (
+     ('---','__'),
+   ('TShirts','tShirts'),
+   ('Sunglasses','sunglasses'),
+   ('Shoes','shoes'),)
 # SIZE_CHOICES = (('---','___'),('Small','Small'),('Medium','Medium'),('Larg','Larg'),
 # )
 class Classification(models.Model):
    name = models.CharField(max_length=120)
    backgroundImage = models.ImageField(null=True, blank=True)
+
+   def __str__(self):
+        return self.name
 
 
 class Item(models.Model):
@@ -22,7 +30,8 @@ class Item(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=3)
     image = models.ImageField(null=True, blank=True) 
-    gender = models.CharField(max_length=33,choices=GENDER_CHOICES,default='---')
+    # gender = models.CharField(max_length=33,choices=GENDER_CHOICES,default='---')
+    _type = models.CharField(max_length=33,choices=TYPE_CHOICES,default='---')
     
     def __str__(self):
         return self.name
