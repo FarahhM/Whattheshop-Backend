@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import ListmenApiView,ListKidsApiView,ListWomenApiView,ClassificationApiView,ListallPrevioseordersApiView,UserCreateAPIView,cartView,checkoutView,ListApiView ,DetailApiView,UpdateApiView ,ListUserchocieApiView ,ItemCreateView,ListPrevioseordersApiView
+from .views import ListmenApiView,ListKidsApiView,ListWomenApiView,ClassificationApiView,ListallPrevioseordersApiView,UserCreateAPIView,cartView,checkoutView,ListApiView ,DetailApiView,UpdateApiView ,ListUserchoiceApiView ,ItemCreateView,ListPrevioseordersApiView, DeleteUserChoice
 
 from rest_framework_jwt.views import obtain_jwt_token
 from django.contrib import admin
@@ -23,4 +23,5 @@ urlpatterns = [
     path('detail/<int:shop>/',DetailApiView.as_view(),name='Detail-api'),
     path('update/<int:shop>/',UpdateApiView.as_view(),name='update-api'),
     path('classification/',ClassificationApiView.as_view(),name='classification-api'),
+    path('userchoice/<int:userchoice_id>/delete/',DeleteUserChoice.as_view(),name='delete-userchoice'),
 ]
